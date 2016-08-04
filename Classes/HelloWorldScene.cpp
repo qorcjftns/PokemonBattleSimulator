@@ -75,13 +75,11 @@ bool HelloWorld::init()
     
     DataLoader::getInstance()->loadPokemonDataFromDB();
     
-    CCLOG("%s", DataLoader::getInstance()->pokemons[1].name_ko.c_str());
-    CCLOG("%d", DataLoader::getInstance()->pokemons[1].stat.hp);
-    CCLOG("%d", DataLoader::getInstance()->pokemons[1].stat.atk);
-    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[1].type1));
-    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[1].type2));
-    
-    
+    CCLOG("%s", DataLoader::getInstance()->pokemons[0].name_ko.c_str());
+    CCLOG("%d", DataLoader::getInstance()->pokemons[0].stat.hp);
+    CCLOG("%d", DataLoader::getInstance()->pokemons[0].stat.atk);
+    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[0].type1));
+    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[0].type2));
     
     return true;
 }

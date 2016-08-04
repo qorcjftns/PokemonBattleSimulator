@@ -16,7 +16,7 @@ static int callback(void *data, int argc, char **argv, char **azColName){
     
     int dex_id = atoi(argv[0]);
     
-    std::string name = argv[1];
+    std::string name = argv[2];
     
     Poketype type1 = Poketype(atoi(argv[7]));
     Poketype type2 = argv[8] ? Poketype(atoi(argv[8])) : type1;
