@@ -1,4 +1,5 @@
 #include "HelloWorldScene.h"
+#include "Pokemon.hpp"
 
 USING_NS_CC;
 
@@ -71,6 +72,16 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+    
+    DataLoader::getInstance()->loadPokemonDataFromDB();
+    
+    CCLOG("%s", DataLoader::getInstance()->pokemons[1].name_ko.c_str());
+    CCLOG("%d", DataLoader::getInstance()->pokemons[1].stat.hp);
+    CCLOG("%d", DataLoader::getInstance()->pokemons[1].stat.atk);
+    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[1].type1));
+    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[1].type2));
+    
+    
     
     return true;
 }

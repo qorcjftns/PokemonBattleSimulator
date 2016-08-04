@@ -11,23 +11,29 @@
 
 #include <stdio.h>
 
+#define POKEMONCOUNT 151
+
 typedef enum {
     NORMAL,
-    FIGHTING,
-    FLYING,
-    POISON,
-    GROUND,
-    ROCK,
-    BUG,
-    GHOST,
     FIRE,
     WATER,
     GRASS,
     ELECTRIC,
-    PSYCHIC,
     ICE,
-    DRAGON
+    FIGHTING,
+    POISON,
+    GROUND,
+    FLYING,
+    PSYCHIC,
+    BUG,
+    ROCK,
+    GHOST,
+    DRAGON,
 } Poketype;
+static const char * PoketypeStrings[] = {
+    "NORMAL", "FIRE", "WATER", "GRASS", "ELECTRIC", "ICE", "FIGHTING",
+    "POISON", "GROUND", "FLYING", "PSYCHIC", "BUG", "ROCK", "GHOST", "DRAGON"
+};
 
 typedef enum {
     ASLEEP,
@@ -45,9 +51,10 @@ struct Stat {
     int sp;
 };
 
-class PokemonBase {
+struct PokemonBase {
     int dex_id;
     Stat stat;
+    std::string name_ko;
     Poketype type1;
     Poketype type2;
     float catch_rate;
@@ -59,11 +66,13 @@ class PokemonBase {
     int move3;
     int move4;
     bool available_tm[56];
+    
 };
 
 class Pokemon {
 private:
     int pokemon_index;
+    std::string nickname;
     int current_hp;
     int level;
     Condition status_condition;
@@ -84,6 +93,25 @@ private:
     int move3_pp;
     int move4_pp;
     Stat av;
+    
+public:
+    
+};
+
+class DataLoader {
+public:
+    static DataLoader *instance;
+    
+    static DataLoader *getInstance() {
+        if(!instance) { instance = new DataLoader(); }
+        return instance;
+    }
+    static const char *getPoketypeString(Poketype t) {
+        return PoketypeStrings[t - 1];
+    }
+    
+    void loadPokemonDataFromDB();
+    std::vector<PokemonBase> pokemons;
 };
 
 #endif /* Pokemon_hpp */
