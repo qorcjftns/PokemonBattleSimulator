@@ -15,6 +15,9 @@
 #include "Type.hpp"
 
 #define POKEMONCOUNT 151
+#define IV_MAX_GEN1 16
+#define IV_MAX_GEN2 16
+
 
 typedef enum {
     NONE,
@@ -78,7 +81,7 @@ public:
     Type type1;
     Type type2;
     
-    Pokemon(int dex, Stat ev, Stat iv, Move m1, Move m2, Move m3, Move m4);
+    Pokemon(int dex);
     Stat getStat() { return this->av; }
     void calculateStats();
     

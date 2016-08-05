@@ -70,6 +70,8 @@
 		EC2404601D5427AE0029C502 /* Move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC24045E1D5427AD0029C502 /* Move.cpp */; };
 		EC2404631D54286E0029C502 /* Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC2404611D54286E0029C502 /* Type.cpp */; };
 		EC2404661D542CB10029C502 /* DataLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC2404641D542CB10029C502 /* DataLoader.cpp */; };
+		EC2404691D54EB6B0029C502 /* Battle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC2404671D54EB6B0029C502 /* Battle.cpp */; };
+		EC24046C1D5505A50029C502 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC24046A1D5505A50029C502 /* Item.cpp */; };
 		EC4BA50F1D52807B007E19DF /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = EC4BA50A1D52807B007E19DF /* sqlite3.c */; };
 		EC4BA5101D52807B007E19DF /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = EC4BA50A1D52807B007E19DF /* sqlite3.c */; };
 		ECD89DE11D51850800A41B14 /* Pokemon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECD89DDF1D51850800A41B14 /* Pokemon.cpp */; };
@@ -173,6 +175,10 @@
 		EC2404621D54286E0029C502 /* Type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Type.hpp; sourceTree = "<group>"; };
 		EC2404641D542CB10029C502 /* DataLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLoader.cpp; sourceTree = "<group>"; };
 		EC2404651D542CB10029C502 /* DataLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLoader.hpp; sourceTree = "<group>"; };
+		EC2404671D54EB6B0029C502 /* Battle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Battle.cpp; sourceTree = "<group>"; };
+		EC2404681D54EB6B0029C502 /* Battle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Battle.hpp; sourceTree = "<group>"; };
+		EC24046A1D5505A50029C502 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
+		EC24046B1D5505A50029C502 /* Item.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Item.hpp; sourceTree = "<group>"; };
 		EC4BA50A1D52807B007E19DF /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		EC4BA50B1D52807B007E19DF /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		EC4BA50C1D52807B007E19DF /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
@@ -327,8 +333,12 @@
 				EC2404621D54286E0029C502 /* Type.hpp */,
 				EC24045E1D5427AD0029C502 /* Move.cpp */,
 				EC24045F1D5427AE0029C502 /* Move.hpp */,
+				EC24046A1D5505A50029C502 /* Item.cpp */,
+				EC24046B1D5505A50029C502 /* Item.hpp */,
 				EC2404641D542CB10029C502 /* DataLoader.cpp */,
 				EC2404651D542CB10029C502 /* DataLoader.hpp */,
+				EC2404671D54EB6B0029C502 /* Battle.cpp */,
+				EC2404681D54EB6B0029C502 /* Battle.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -532,6 +542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC24046C1D5505A50029C502 /* Item.cpp in Sources */,
 				EC2404631D54286E0029C502 /* Type.cpp in Sources */,
 				EC2404601D5427AE0029C502 /* Move.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
@@ -542,6 +553,7 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				EC4BA50F1D52807B007E19DF /* sqlite3.c in Sources */,
+				EC2404691D54EB6B0029C502 /* Battle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

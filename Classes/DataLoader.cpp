@@ -13,8 +13,19 @@
 #include "Pokemon.hpp"
 #include "Move.hpp"
 #include "Type.hpp"
+#include "Item.hpp"
 
 DataLoader *DataLoader::instance = NULL;
+
+static int callback_item(void *data, int argc, char **argv, char **azColName){
+    Item i = Item();
+    i.item_id = atoi(argv[0]);
+    i.name_en = argv[1]?argv[1]:"";
+    i.name_ko = argv[2]?argv[2]:"";
+    i.name_jp = argv[3]?argv[3]:"";
+    
+    ItemUtil::getInstance()->items.push_back(i);
+}
 
 static int callback_move(void *data, int argc, char **argv, char **azColName){
     
@@ -33,8 +44,9 @@ static int callback_move(void *data, int argc, char **argv, char **azColName){
     
     return 0;
 }
+
 static int callback_movelearn_lvl1(void *data, int argc, char **argv, char **azColName){
-    Move m = MoveUtil::getInstance()->movelist[atoi(argv[1])];
+    Move m = MoveUtil::getInstance()->movelist[atoi(argv[1]) - 1];
     ((std::vector<Move> *) data)->push_back(m);
     return 0;
 }
@@ -95,39 +107,63 @@ static int callback_basestat(void *data, int argc, char **argv, char **azColName
     p.move3 = lvl1Moves.size() >= 3 ? lvl1Moves[2] : Move();
     p.move4 = lvl1Moves.size() >= 4 ? lvl1Moves[3] : Move();
     
+    // Front Sprite Image
+    ss = std::stringstream();
+    ss << "res/FRLG/" << dex_id << ".png";
+    p.sprite_front = ss.str();
+    
+    // Back Sprite Image
+    ss = std::stringstream();
+    ss << "res/FRLG/back/" << dex_id << ".png";
+    p.sprite_back = ss.str();
+    
     PokemonUtil::getInstance()->pokemons.push_back(p);
     
     return 0;
 }
 
 void DataLoader::loadPokemonDataFromDB() {
-    sqlite3 *db;
+    char * errMsg = NULL;
+    // Get Pokemon Stat
+    sqlite3_exec(db, "SELECT * FROM PokemonDataGen1", callback_basestat, db, &errMsg);
+}
+void DataLoader::loadMoveDataFromDB() {
+    char * errMsg = NULL;
+    // Get Move Data
+    sqlite3_exec(db, "SELECT * FROM MoveGen1", callback_move, NULL, &errMsg);
+}
+void DataLoader::loadItemDataFromDB() {
+    char * errMsg = NULL;
+    // Get Move Data
+    sqlite3_exec(db, "SELECT * FROM ItemGen1", callback_item, NULL, &errMsg);
+}
+
+
+void DataLoader::loadFromDB() {
     char * errMsg = NULL;
     int result;
     
     std::string dbPath = cocos2d::FileUtils::getInstance()->getWritablePath();
     
+    printf("%s\n", dbPath.c_str());
+    
     dbPath.append("pokemon.sqlite");
     
     
-    //    if(!cocos2d::FileUtils::getInstance()->isFileExist(dbPath)) {
-    cocos2d::Data d = cocos2d::FileUtils::getInstance()->getDataFromFile("res/pokemon.sqlite");
-    cocos2d::FileUtils::getInstance()->writeDataToFile(d, dbPath);
-    //    }
+//    if(!cocos2d::FileUtils::getInstance()->isFileExist(dbPath)) {
+        cocos2d::Data d = cocos2d::FileUtils::getInstance()->getDataFromFile("res/pokemon.sqlite");
+        cocos2d::FileUtils::getInstance()->writeDataToFile(d, dbPath);
+//    }
     
     result = sqlite3_open_v2(dbPath.c_str(), &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, NULL);
     
     if( result != SQLITE_OK )
         CCLOG( "failed，status_code:%d ，error_msg:%s\n" , result, errMsg );
-    
-    // Get Move Data
-    sqlite3_exec(db, "SELECT * FROM MoveGen1", callback_move, NULL, &errMsg);
-    // Get Pokemon Stat
-    sqlite3_exec(db, "SELECT * FROM PokemonDataGen1", callback_basestat, db, &errMsg);
 
+    loadMoveDataFromDB();
+    loadPokemonDataFromDB();
+    loadItemDataFromDB();
 }
-
-
 
 
 

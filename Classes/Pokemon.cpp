@@ -16,22 +16,41 @@
 
 PokemonUtil *PokemonUtil::instance = NULL;
 
-Pokemon::Pokemon(int dex, Stat ev, Stat iv, Move m1, Move m2, Move m3, Move m4) {
+Pokemon::Pokemon(int dex) {
     this->pokemon_index = dex;
     this->ev = ev;
     this->iv = iv;
-    this->move1 = m1;
-    this->move2 = m2;
-    this->move3 = m3;
-    this->move4 = m4;
     this->status_condition = NONE;
     
     PokemonBase base = PokemonUtil::getInstance()->pokemons[dex-1];
     
+    this->move1 = base.move1;
+    this->move2 = base.move2;
+    this->move3 = base.move3;
+    this->move4 = base.move4;
+    
+    // Set Individual Value (IV)
+    std::srand(std::time(0));
+    this->iv = Stat();
+    iv.hp = rand() % IV_MAX_GEN1;
+    iv.atk = rand() % IV_MAX_GEN1;
+    iv.def = rand() % IV_MAX_GEN1;
+    iv.spd = rand() % IV_MAX_GEN1;
+    iv.sp = rand() % IV_MAX_GEN1;
+    
+    // Set Effort Value (EV)
+    std::srand(std::time(0));
+    this->ev = Stat();
+    iv.hp = 0;
+    iv.atk = 0;
+    iv.def = 0;
+    iv.spd = 0;
+    iv.sp = 0;
+    
     this->type1 = base.type1;
     this->type2 = base.type2;
     
-    this->level = 50; // Default level is 50
+    this->level = 1;
     
     calculateStats();
 }

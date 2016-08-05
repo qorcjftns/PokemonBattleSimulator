@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include "Pokemon.hpp"
+#include "sqlite3.h"
 
 class DataLoader {
 public:
@@ -22,7 +23,13 @@ public:
         return instance;
     }
     
+    sqlite3 *db;
+    
+    void loadFromDB();
+    
     void loadPokemonDataFromDB();
+    void loadMoveDataFromDB();
+    void loadItemDataFromDB();
 };
 
 
