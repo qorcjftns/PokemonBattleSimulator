@@ -11,31 +11,13 @@
 
 #include <stdio.h>
 
+#include "Move.hpp"
+#include "Type.hpp"
+
 #define POKEMONCOUNT 151
 
 typedef enum {
-    NORMAL,
-    FIRE,
-    WATER,
-    GRASS,
-    ELECTRIC,
-    ICE,
-    FIGHTING,
-    POISON,
-    GROUND,
-    FLYING,
-    PSYCHIC,
-    BUG,
-    ROCK,
-    GHOST,
-    DRAGON,
-} Poketype;
-static const char * PoketypeStrings[] = {
-    "NORMAL", "FIRE", "WATER", "GRASS", "ELECTRIC", "ICE", "FIGHTING",
-    "POISON", "GROUND", "FLYING", "PSYCHIC", "BUG", "ROCK", "GHOST", "DRAGON"
-};
-
-typedef enum {
+    NONE,
     ASLEEP,
     POISONED,
     BURNED,
@@ -55,18 +37,17 @@ struct PokemonBase {
     int dex_id;
     Stat stat;
     std::string name_ko;
-    Poketype type1;
-    Poketype type2;
+    Type type1;
+    Type type2;
     float catch_rate;
     int base_exp;
     std::string sprite_front;
     std::string sprite_back;
-    int move1;
-    int move2;
-    int move3;
-    int move4;
+    Move move1;
+    Move move2;
+    Move move3;
+    Move move4;
     bool available_tm[56];
-    
 };
 
 class Pokemon {
@@ -76,18 +57,16 @@ private:
     int current_hp;
     int level;
     Condition status_condition;
-    Poketype type1;
-    Poketype type2;
     float catch_rate;
-    int move1;
-    int move2;
-    int move3;
-    int move4;
     int trainer_id;
     int exp;
     int ev_hp;
     Stat ev;
     Stat iv;
+    Move move1;
+    Move move2;
+    Move move3;
+    Move move4;
     int move1_pp;
     int move2_pp;
     int move3_pp;
@@ -96,22 +75,26 @@ private:
     
 public:
     
+    Type type1;
+    Type type2;
+    
+    Pokemon(int dex, Stat ev, Stat iv, Move m1, Move m2, Move m3, Move m4);
+    Stat getStat() { return this->av; }
+    void calculateStats();
+    
 };
 
-class DataLoader {
+class PokemonUtil {
 public:
-    static DataLoader *instance;
+    static PokemonUtil *instance;
     
-    static DataLoader *getInstance() {
-        if(!instance) { instance = new DataLoader(); }
+    static PokemonUtil *getInstance() {
+        if(!instance) { instance = new PokemonUtil(); }
         return instance;
     }
-    static const char *getPoketypeString(Poketype t) {
-        return PoketypeStrings[t - 1];
-    }
     
-    void loadPokemonDataFromDB();
     std::vector<PokemonBase> pokemons;
 };
+
 
 #endif /* Pokemon_hpp */

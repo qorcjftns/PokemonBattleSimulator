@@ -1,4 +1,5 @@
 #include "HelloWorldScene.h"
+#include "DataLoader.hpp"
 #include "Pokemon.hpp"
 
 USING_NS_CC;
@@ -75,11 +76,10 @@ bool HelloWorld::init()
     
     DataLoader::getInstance()->loadPokemonDataFromDB();
     
-    CCLOG("%s", DataLoader::getInstance()->pokemons[0].name_ko.c_str());
-    CCLOG("%d", DataLoader::getInstance()->pokemons[0].stat.hp);
-    CCLOG("%d", DataLoader::getInstance()->pokemons[0].stat.atk);
-    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[0].type1));
-    CCLOG("%s", DataLoader::getPoketypeString(DataLoader::getInstance()->pokemons[0].type2));
+    printf("Lvl1 Move 1: %s\n", PokemonUtil::getInstance()->pokemons[0].move1.getName().c_str());
+    printf("Lvl1 Move 2: %s\n", PokemonUtil::getInstance()->pokemons[0].move2.getName().c_str());
+    printf("Lvl1 Move 3: %s\n", PokemonUtil::getInstance()->pokemons[0].move3.getName().c_str());
+    printf("Lvl1 Move 4: %s\n", PokemonUtil::getInstance()->pokemons[0].move4.getName().c_str());
     
     return true;
 }

@@ -6,60 +6,45 @@
 //
 //
 
+#include <cmath>
+
 #include "cocos2d.h"
-#include "Pokemon.hpp"
 #include "sqlite3.h"
 
-DataLoader *DataLoader::instance = NULL;
+#include "Pokemon.hpp"
+#include "DataLoader.hpp"
 
-static int callback(void *data, int argc, char **argv, char **azColName){
-    
-    int dex_id = atoi(argv[0]);
-    
-    std::string name = argv[2];
-    
-    Poketype type1 = Poketype(atoi(argv[7]));
-    Poketype type2 = argv[8] ? Poketype(atoi(argv[8])) : type1;
-    
-    Stat stat;
-    stat.hp = atoi(argv[9]);
-    stat.atk = atoi(argv[10]);
-    stat.def = atoi(argv[11]);
-    stat.spd = atoi(argv[14]);
-    stat.sp = atoi(argv[12]);
-    
-    PokemonBase p;
+PokemonUtil *PokemonUtil::instance = NULL;
 
-    p.dex_id = dex_id;
-    p.name_ko = name;
-    p.stat = stat;
-    p.type1 = type1;
-    p.type2 = type2;
+Pokemon::Pokemon(int dex, Stat ev, Stat iv, Move m1, Move m2, Move m3, Move m4) {
+    this->pokemon_index = dex;
+    this->ev = ev;
+    this->iv = iv;
+    this->move1 = m1;
+    this->move2 = m2;
+    this->move3 = m3;
+    this->move4 = m4;
+    this->status_condition = NONE;
     
-    DataLoader::getInstance()->pokemons.push_back(p);
+    PokemonBase base = PokemonUtil::getInstance()->pokemons[dex-1];
     
-    return 0;
+    this->type1 = base.type1;
+    this->type2 = base.type2;
+    
+    this->level = 50; // Default level is 50
+    
+    calculateStats();
 }
 
-void DataLoader::loadPokemonDataFromDB() {
-    sqlite3 *db;
-    char * errMsg = NULL;
-    int result;
+void Pokemon::calculateStats() {
+    Stat av;
+    PokemonBase base = PokemonUtil::getInstance()->pokemons[this->pokemon_index-1];
+    av.hp = std::floor((((base.stat.hp + iv.hp) * 2) + std::floor(std::sqrt(ev.hp))) * level / 100) + level + 10;
+    av.atk = std::floor((((base.stat.atk + iv.atk) * 2) + std::floor(std::sqrt(ev.atk))) * level / 100) + 5;
+    av.def = std::floor((((base.stat.def + iv.def) * 2) + std::floor(std::sqrt(ev.def))) * level / 100) + 5;
+    av.spd = std::floor((((base.stat.spd + iv.spd) * 2) + std::floor(std::sqrt(ev.spd))) * level / 100) + 5;
+    av.sp = std::floor((((base.stat.sp + iv.sp) * 2) + std::floor(std::sqrt(ev.sp))) * level / 100) + 5;
     
-    std::string dbPath = cocos2d::FileUtils::getInstance()->getWritablePath();
-    
-    dbPath.append("pokemon.sqlite");
-    
-    
-    if(!cocos2d::FileUtils::getInstance()->isFileExist(dbPath)) {
-        cocos2d::Data d = cocos2d::FileUtils::getInstance()->getDataFromFile("res/pokemon.sqlite");
-        cocos2d::FileUtils::getInstance()->writeDataToFile(d, dbPath);
-    }
-    
-    result = sqlite3_open_v2(dbPath.c_str(), &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, NULL);
-    
-    if( result != SQLITE_OK )
-        CCLOG( "failed，status_code:%d ，error_msg:%s\n" , result, errMsg );
-    
-    sqlite3_exec(db, "SELECT * FROM PokemonData", callback, NULL, &errMsg);
+    this->av = av;
 }
+
